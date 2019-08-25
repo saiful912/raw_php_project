@@ -1,4 +1,9 @@
-<?php $title = 'Checkout'; ?>
+<?php $title = 'Checkout';
+    session_start();
+    require_once 'connection.php';
+$cart=$_SESSION['cart'] ?? [];
+$total_price = !empty($cart) ?array_sum(array_column($cart,'total_price')):0;
+?>
 <?php require_once '_header.php'; ?>
 
     <main role="main">
@@ -11,34 +16,21 @@
                 <div class="col-md-4 order-md-2 mb-4">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-muted">Your cart</span>
-                        <span class="badge badge-secondary badge-pill">3</span>
                     </h4>
+                    <?php foreach($cart as $key =>$product):?>
                     <ul class="list-group mb-3">
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
                             <div>
-                                <h6 class="my-0">Product name</h6>
+                                <h6 class="my-0"><?php echo $product['name']?></h6>
                             </div>
-                            <span class="text-muted">$12</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
-                                <h6 class="my-0">Second product</h6>
-                                <small class="text-muted">Brief description</small>
-                            </div>
-                            <span class="text-muted">$8</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div>
-                                <h6 class="my-0">Third item</h6>
-                                <small class="text-muted">Brief description</small>
-                            </div>
-                            <span class="text-muted">$5</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
-                            <strong>$20</strong>
+                            <span class="text-muted"><?php echo $product['price']?></span>
                         </li>
                     </ul>
+                    <?php endforeach;?>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total BDT </span>
+                        <strong><?php echo number_format($total_price,2);?></strong>
+                    </li>
 
                 </div>
                 <div class="col-md-8 order-md-1">
